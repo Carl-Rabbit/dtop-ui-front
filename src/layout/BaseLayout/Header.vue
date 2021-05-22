@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <p>{{ this.$route.name }}</p>
+      <p class="head-title">{{ this.$route.name }}</p>
     </div>
     <div class="header-right">
 <!--      <p>right</p>-->
@@ -36,6 +36,11 @@
 
   .header-right {
     margin-right: 30px;
+  }
+
+  .head-title {
+    font-size: 1.5em;
+    font-weight: bold;
   }
 
 </style>

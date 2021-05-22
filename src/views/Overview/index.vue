@@ -1,12 +1,22 @@
 <template>
   <div class="overview">
-    Overview
+    {{ data }}
   </div>
 </template>
 
 <script>
+  import {mapState} from "vuex"
+
   export default {
     name: 'Overview',
+    mounted() {
+      this.$store.dispatch("getClusterStatus")
+    },
+    computed: {
+      ...mapState({
+        data: state => state.machines,
+      })
+    }
   }
 </script>
 

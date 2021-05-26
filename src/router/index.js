@@ -1,20 +1,26 @@
 import VueRouter from 'vue-router'
 import BaseLayout from "@/layout/BaseLayout";
 
-import Overview from "@/views/Overview"
+import ClusterStatus from "@/views/ClusterStatus"
+import Profiling from "@/views/Profiling"
 
 const views = [
     {
-        path: 'overview',
-        name: 'Overview',
-        component: Overview
+        path: 'cluster-status',
+        name: 'ClusterStatus',
+        component: ClusterStatus
+    },
+    {
+        path: 'profiling',
+        name: 'Profiling',
+        component: Profiling
     },
 ]
 
 const routes = [
     {path: '/interface', component: BaseLayout, children: views},
-    {path: '/', redirect: '/interface/overview'},
-    {path: '/interface', redirect: '/interface/overview'},
+    {path: '/', redirect: '/interface/cluster-status'},
+    {path: '/interface', redirect: '/interface/cluster-status'},
 ]
 
 export default new VueRouter({

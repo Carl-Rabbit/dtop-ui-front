@@ -1,6 +1,5 @@
 <template>
-  <div class="overview">
-    {{ data }}
+  <div class="profiling">
   </div>
 </template>
 
@@ -8,13 +7,12 @@
   import {mapState} from "vuex"
 
   export default {
-    name: 'Overview',
+    name: 'Profiling',
     mounted() {
-      this.$store.dispatch("getClusterStatus")
     },
     computed: {
       ...mapState({
-        data: state => state.machines,
+        // clusterStatus: state => state.clusterStatus,
       })
     }
   }

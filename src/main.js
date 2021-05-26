@@ -11,6 +11,9 @@ import Vuex from 'vuex'
 import VueRouter from "vue-router";
 import router from '@/router'
 import store from '@/store'
+import Icon from 'vue-svg-icon/Icon.vue' //引入svg插件
+
+Vue.component('Icon', Icon) //注册svg插件
 
 Vue.use(Vuex)
 Vue.use(VueRouter)

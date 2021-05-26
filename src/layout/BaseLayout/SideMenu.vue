@@ -13,19 +13,14 @@
 <!--        <p style="margin-left: 5px; font-size: 22px; color: #adadad">DTop UI</p>-->
 <!--      </div>-->
 
-      <el-menu-item index="Overview">
-        <i class="el-icon-s-home"></i>
-        <span slot="title">Overview</span>
-      </el-menu-item>
-
       <el-menu-item index="ClusterStatus">
         <i class="el-icon-notebook-1"></i>
         <span slot="title">Cluster Status</span>
       </el-menu-item>
 
-      <el-menu-item index="Account">
-        <i class="el-icon-s-custom"></i>
-        <span slot="title">Account</span>
+      <el-menu-item index="Profiling">
+        <i class="el-icon-s-home"></i>
+        <span slot="title">Profiling</span>
       </el-menu-item>
     </el-menu>
 
@@ -53,11 +48,11 @@
       },
       handleSelect (key, keyPath) {
         console.log(key, keyPath)
-        // if (key.indexOf("@") !== -1) {
-        //   console.log('Not finished')
-        // } else {
-        //   this.$router.push({name: key, params: {proj_id: projId}})
-        // }
+        if (key.indexOf("@") !== -1) {
+          console.log('Not finished')
+        } else {
+          this.$router.push({name: key})
+        }
       }
     }
   }

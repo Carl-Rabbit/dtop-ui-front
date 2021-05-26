@@ -5,6 +5,8 @@ const state = () => ({
   connect: false,
   clusterStatus: {},
   clusterStatusUpdateTime: '--',
+
+  clusterMetric: {},
 })
 
 const getters = {
@@ -18,12 +20,22 @@ const actions = {
     }, errResp => {
       console.log(errResp)
     })
-    context.commit('changeClusterStatus', null)
+    // context.commit('changeClusterStatus', null)
   },
   switchWorkerStatus(context, {addr, workerName, cmdType}) {
-    profileService.switchWorkerStatus({
+    profileService.switchWorkerStatus([{
       addr, workerName, cmdType
-    }, resp => {
+    }], resp => {
+      console.log("workerStatus update")
+      context.dispatch('getClusterStatus')
+      console.log(resp)
+    }, errResp => {
+      console.log(errResp)
+    })
+  },
+  getClusterMetric(context, payload) {
+    profileService.getClusterMetric(payload, resp =>{
+      context.commit('changeClusterMetric', resp)
       console.log(resp)
     }, errResp => {
       console.log(errResp)
@@ -37,59 +49,60 @@ const mutations = {
     state.clusterStatus = clusterStatus
     state.clusterStatusUpdateTime = dateToString(new Date(), 'yy-MM-dd HH:mm:ss')
 
-    state.clusterStatus = {
-      "serverStatusArr": [{
-        "addr": "127.0.0.1:8080",
-        "workerStatusArr": [{
-          "workerName": "Memory usage worker",
-          "status": "RUNNING",
-          "futures": [{
-            "label": "MEM_USAGE",
-            "desc": "The overall memory usage"
-          }, {
-            "label": "MEM_PER_PROC",
-            "desc": "The detail memory info of processes"
-          }]
-        }, {
-          "workerName": "Memory monitor worker",
-          "status": "RUNNING",
-          "futures": [{
-            "label": "MEM_USAGE",
-            "desc": "The overall memory usage"
-          }, {
-            "label": "MEM_PER_PROC",
-            "desc": "The detail memory info of processes"
-          }]
-        }],
-        "status": "Indirect"
-      }, {
-        "addr": "127.0.0.1:8080",
-        "workerStatusArr": [{
-          "workerName": "Memory usage worker",
-          "status": "RUNNING",
-          "futures": [{
-            "label": "MEM_USAGE",
-            "desc": "The overall memory usage"
-          }, {
-            "label": "MEM_PER_PROC",
-            "desc": "The detail memory info of processes"
-          }]
-        }, {
-          "workerName": "Memory monitor worker",
-          "status": "RUNNING",
-          "futures": [{
-            "label": "MEM_USAGE",
-            "desc": "The overall memory usage"
-          }, {
-            "label": "MEM_PER_PROC",
-            "desc": "The detail memory info of processes"
-          }]
-        }],
-        "status": "Indirect"
-      }]
-
-    }
-
+    // state.clusterStatus = {
+    //   "serverStatusArr": [{
+    //     "addr": "127.0.0.1:8080",
+    //     "workerStatusArr": [{
+    //       "workerName": "Memory usage worker",
+    //       "status": "RUNNING",
+    //       "futures": [{
+    //         "label": "MEM_USAGE",
+    //         "desc": "The overall memory usage"
+    //       }, {
+    //         "label": "MEM_PER_PROC",
+    //         "desc": "The detail memory info of processes"
+    //       }]
+    //     }, {
+    //       "workerName": "Memory monitor worker",
+    //       "status": "RUNNING",
+    //       "futures": [{
+    //         "label": "MEM_USAGE",
+    //         "desc": "The overall memory usage"
+    //       }, {
+    //         "label": "MEM_PER_PROC",
+    //         "desc": "The detail memory info of processes"
+    //       }]
+    //     }],
+    //     "status": "Indirect"
+    //   }, {
+    //     "addr": "127.0.0.1:8080",
+    //     "workerStatusArr": [{
+    //       "workerName": "Memory usage worker",
+    //       "status": "RUNNING",
+    //       "futures": [{
+    //         "label": "MEM_USAGE",
+    //         "desc": "The overall memory usage"
+    //       }, {
+    //         "label": "MEM_PER_PROC",
+    //         "desc": "The detail memory info of processes"
+    //       }]
+    //     }, {
+    //       "workerName": "Memory monitor worker",
+    //       "status": "RUNNING",
+    //       "futures": [{
+    //         "label": "MEM_USAGE",
+    //         "desc": "The overall memory usage"
+    //       }, {
+    //         "label": "MEM_PER_PROC",
+    //         "desc": "The detail memory info of processes"
+    //       }]
+    //     }],
+    //     "status": "Indirect"
+    //   }]
+    //
+    // }
+    console.log(state.clusterStatus)
+    console.log(state.clusterStatus.serverStatusArr[0])
     // init data
     state.clusterStatus.serverStatusArr.forEach(status => {
       status['workerNum'] = status.workerStatusArr.length
@@ -98,6 +111,10 @@ const mutations = {
       })
     })
     console.log('clusterStatus', state.clusterStatus)
+  },
+  changeClusterMetric(state, clusterMetric) {
+    console.log('xxx', clusterMetric)
+    state.clusterMetric = clusterMetric
   }
 }
 

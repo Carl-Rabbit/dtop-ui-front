@@ -21,7 +21,7 @@ function post(url, param, callback, errCallBack) {
   request({
     url,
     method: 'post',
-    params: param
+    data: param
   }).then(response => {
     callback(response.data)
   }, errResponse => {
@@ -31,7 +31,7 @@ function post(url, param, callback, errCallBack) {
 
 
 function getClusterStatus(param, callback, errCallBack) {
-  get('/cluster_status', param, callback, err => {
+  get('/cluster_status?flags=-wf,-wfd', param, callback, err => {
     errCallBack();
     console.log('get xxx', err)
   })
@@ -44,7 +44,15 @@ function switchWorkerStatus(param, callback, errCallBack) {
   })
 }
 
+function getClusterMetric(param, callback, errCallBack) {
+  post('/cluster_metric', param, callback, err => {
+    errCallBack();
+    console.log('post xxx', err)
+  })
+}
+
 export default {
   getClusterStatus,
   switchWorkerStatus,
+  getClusterMetric,
 }

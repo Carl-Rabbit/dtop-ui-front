@@ -22,6 +22,11 @@
         <i class="el-icon-s-home"></i>
         <span slot="title">Profiling</span>
       </el-menu-item>
+
+      <el-menu-item index="Monitor">
+        <i class="el-icon-monitor"></i>
+        <span slot="title">Monitor</span>
+      </el-menu-item>
     </el-menu>
 
     <el-radio-group v-model="isCollapse" class="collapse-buttons">

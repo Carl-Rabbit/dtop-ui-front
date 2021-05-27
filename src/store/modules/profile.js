@@ -7,6 +7,8 @@ const state = () => ({
   clusterStatusUpdateTime: '--',
 
   clusterMetric: {},
+
+  tracedProc: null,
 })
 
 const getters = {
@@ -33,10 +35,34 @@ const actions = {
       console.log(errResp)
     })
   },
-  getClusterMetric(context, payload) {
-    profileService.getClusterMetric(payload, resp =>{
+  getClusterMetric(context, requestArray) {
+    profileService.getClusterMetric(requestArray, resp =>{
       context.commit('changeClusterMetric', resp)
       console.log(resp)
+    }, errResp => {
+      console.log(errResp)
+    })
+  },
+  modifyTracedProc(context, {addr, paramStr}) {
+    let param = [{
+      addr,
+      futureArr: ['UPDATE_TRACE_PROC'],
+      paramArr: [paramStr],
+    }]
+    console.log('modifyTracedProc param', param)
+    profileService.getClusterMetric(param,resp =>{
+      console.log(resp)
+    }, errResp => {
+      console.log(errResp)
+    })
+  },
+  getTracedProc(context) {
+    profileService.getClusterMetric([{
+      addr: '',
+      futureArr: ['REPORT_TRACE_PROC'],
+      paramArr: ['']
+    }], resp => {
+      context.commit('changeTracedProc', resp)
     }, errResp => {
       console.log(errResp)
     })
@@ -49,58 +75,6 @@ const mutations = {
     state.clusterStatus = clusterStatus
     state.clusterStatusUpdateTime = dateToString(new Date(), 'yy-MM-dd HH:mm:ss')
 
-    // state.clusterStatus = {
-    //   "serverStatusArr": [{
-    //     "addr": "127.0.0.1:8080",
-    //     "workerStatusArr": [{
-    //       "workerName": "Memory usage worker",
-    //       "status": "RUNNING",
-    //       "futures": [{
-    //         "label": "MEM_USAGE",
-    //         "desc": "The overall memory usage"
-    //       }, {
-    //         "label": "MEM_PER_PROC",
-    //         "desc": "The detail memory info of processes"
-    //       }]
-    //     }, {
-    //       "workerName": "Memory monitor worker",
-    //       "status": "RUNNING",
-    //       "futures": [{
-    //         "label": "MEM_USAGE",
-    //         "desc": "The overall memory usage"
-    //       }, {
-    //         "label": "MEM_PER_PROC",
-    //         "desc": "The detail memory info of processes"
-    //       }]
-    //     }],
-    //     "status": "Indirect"
-    //   }, {
-    //     "addr": "127.0.0.1:8080",
-    //     "workerStatusArr": [{
-    //       "workerName": "Memory usage worker",
-    //       "status": "RUNNING",
-    //       "futures": [{
-    //         "label": "MEM_USAGE",
-    //         "desc": "The overall memory usage"
-    //       }, {
-    //         "label": "MEM_PER_PROC",
-    //         "desc": "The detail memory info of processes"
-    //       }]
-    //     }, {
-    //       "workerName": "Memory monitor worker",
-    //       "status": "RUNNING",
-    //       "futures": [{
-    //         "label": "MEM_USAGE",
-    //         "desc": "The overall memory usage"
-    //       }, {
-    //         "label": "MEM_PER_PROC",
-    //         "desc": "The detail memory info of processes"
-    //       }]
-    //     }],
-    //     "status": "Indirect"
-    //   }]
-    //
-    // }
     console.log(state.clusterStatus)
     console.log(state.clusterStatus.serverStatusArr[0])
     // init data
@@ -115,6 +89,10 @@ const mutations = {
   changeClusterMetric(state, clusterMetric) {
     console.log('xxx', clusterMetric)
     state.clusterMetric = clusterMetric
+  },
+  changeTracedProc(state, tracedProc) {
+    console.log(tracedProc)
+    state.tracedProc = tracedProc
   }
 }
 

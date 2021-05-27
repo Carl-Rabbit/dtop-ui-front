@@ -111,7 +111,7 @@
           workerName: worker.workerName,
           cmdType: worker.status === "RUNNING" ? "PAUSE" : "START"
         })
-      }
+      },
     },
     mounted() {
       this.refreshStatus()

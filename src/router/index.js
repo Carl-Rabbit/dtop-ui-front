@@ -3,6 +3,7 @@ import BaseLayout from "@/layout/BaseLayout";
 
 import ClusterStatus from "@/views/ClusterStatus"
 import Profiling from "@/views/Profiling"
+import Monitor from "@/views/Monitor"
 
 const views = [
     {
@@ -14,6 +15,11 @@ const views = [
         path: 'profiling',
         name: 'Profiling',
         component: Profiling
+    },
+    {
+        path: 'monitor',
+        name: 'Monitor',
+        component: Monitor
     },
 ]
 
